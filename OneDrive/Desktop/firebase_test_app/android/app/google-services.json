@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "726146516487",
+    "firebase_url": "https://free-fire-1764f.firebaseio.com",
+    "project_id": "free-fire-1764f",
+    "storage_bucket": "free-fire-1764f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726146516487:android:33c9bdfb891c1e64200ca2",
+        "android_client_info": {
+          "package_name": "com.example.firebase_test_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726146516487-ilbunhs5iah37t7h1u29mvn3kk74a61l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcJv_CMpWQXp8SiJf1J_f2SpkmE5spq-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726146516487-ilbunhs5iah37t7h1u29mvn3kk74a61l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
