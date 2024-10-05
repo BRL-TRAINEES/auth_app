@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test_app/screens/home_screen.dart';
 import 'package:firebase_test_app/screens/reset_password-screen.dart';
 import 'package:firebase_test_app/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,33 @@ class _SigninScreenState extends State<SigninScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   final GlobalKey<FormState> _formkey =GlobalKey<FormState>();
+
+  Future<void> _Signin() async{
+    if (_formkey.currentState?.validate()??false) {
+      try{
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim(),);
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context)=>const HomeScreen()),
+        );
+      }on FirebaseAuthException catch(e) {
+        String message;
+        if(e.code =='user not found'){
+          message = ' no user found for this email';
+        }
+        else if (e.code == 'wrong-password') {
+          message = 'wrong password';
+          
+        }
+        else{
+          message = 'something went wrong.Please try again';
+        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(message)),);
+      }
+      
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,13 +153,7 @@ class _SigninScreenState extends State<SigninScreen> {
           
         
          ElevatedButton(
-          onPressed: (){
-            if (_formkey.currentState?.validate()??false) {
-              print('Email: ${_emailController.text}');
-              print('Password: ${_passwordController.text}');
-              
-            }
-          },
+          onPressed: _Signin,
           child: Text('Sign In',
           style: TextStyle(fontWeight: FontWeight.bold)),
           
