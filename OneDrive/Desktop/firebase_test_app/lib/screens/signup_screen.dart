@@ -46,7 +46,7 @@ class _SignupScreenState extends State<SignupScreen> {
           Container(
             width: 300,
            child:TextFormField(
-          controller: _emailController,
+          controller: _usernameController,
           decoration: InputDecoration(
             labelText: 'Enter your Name',
             prefixIcon: Icon(Icons.person),
