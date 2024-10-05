@@ -1,4 +1,5 @@
 import 'package:firebase_test_app/screens/reset_password-screen.dart';
+import 'package:firebase_test_app/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -117,7 +118,7 @@ class _SigninScreenState extends State<SigninScreen> {
 
         //Submit button
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
 
           
@@ -149,6 +150,15 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                       ],
                     ),
+                    //dont have an account?sign up
+                    TextButton(onPressed: (){
+                      Navigator.of(context).push(
+              MaterialPageRoute(builder: (context)=>SignupScreen(),
+                     ),); },
+                     child: Text(
+                      "Don't have an account?Sign up",
+                      
+                     ), )
                   ],
                 ),
               ),
