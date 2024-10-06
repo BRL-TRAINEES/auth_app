@@ -3,6 +3,7 @@ import 'package:firebase_test_app/screens/home_screen.dart';
 import 'package:firebase_test_app/screens/reset_password-screen.dart';
 import 'package:firebase_test_app/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'Google_screen.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -16,15 +17,30 @@ class _SigninScreenState extends State<SigninScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   final GlobalKey<FormState> _formkey =GlobalKey<FormState>();
+  
 
   Future<void> _Signin() async{
     if (_formkey.currentState?.validate()??false) {
+      
       try{
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim(),);
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context)=>const HomeScreen()),
-        );
+        if (userCredential.user?.emailVerified ?? false) {
+            //navigate to home screen
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          } else {
+            // signout if users email not verified
+            await FirebaseAuth.instance.signOut();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text('Please verify your mail before signing in')),
+            );
+          }
+
+        
       }on FirebaseAuthException catch(e) {
         String message;
         if(e.code =='user not found'){
@@ -39,6 +55,7 @@ class _SigninScreenState extends State<SigninScreen> {
         }
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(message)),);
       }
+      
       
     }
   }
@@ -181,7 +198,18 @@ class _SigninScreenState extends State<SigninScreen> {
                      child: Text(
                       "Don't have an account?Sign up",
                       
-                     ), )
+                     ),
+                      ),
+                     const SizedBox(height: 20.0),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GoogleSigninScreen()),
+                            );
+                          },
+                          child: Text('Sign in with google'))
                   ],
                 ),
               ),

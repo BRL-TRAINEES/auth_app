@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_test_app/screens/home_screen.dart';
 import 'package:firebase_test_app/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
+import 'Google_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -25,20 +27,24 @@ class _SignupScreenState extends State<SignupScreen> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-        if(userCredential.user!=null){
-        await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-          'username':_usernameController.text,
-          'email':_emailController.text.trim(),
-        });
+        if (userCredential.user != null) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .set({
+            'username': _usernameController.text,
+            'email': _emailController.text.trim(),
+          });
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const SigninScreen()),
-        );
-      }
-      else{
-        throw Exception('user creation failed');
-      } }
-      on FirebaseAuthException catch (e) {
+          await userCredential.user?.sendEmailVerification();
+
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const SigninScreen()),
+          );
+        } else {
+          throw Exception('user creation failed');
+        }
+      } on FirebaseAuthException catch (e) {
         String message;
         if (e.code == 'weak password') {
           message = 'Weak password';
@@ -171,8 +177,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: _Signup, 
-                          
+                        onPressed: _Signup,
                         child: Text('Sign Up',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
@@ -186,6 +191,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           "Already have an account?Sign in",
                         ),
                       ),
+                      
                     ],
                   ),
                 ]),
