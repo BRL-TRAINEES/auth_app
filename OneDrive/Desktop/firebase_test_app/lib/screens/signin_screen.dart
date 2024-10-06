@@ -30,7 +30,7 @@ class _SigninScreenState extends State<SigninScreen> {
         if(e.code =='user not found'){
           message = ' no user found for this email';
         }
-        else if (e.code == 'wrong-password') {
+        else if (e.code == 'wrong password') {
           message = 'wrong password';
           
         }

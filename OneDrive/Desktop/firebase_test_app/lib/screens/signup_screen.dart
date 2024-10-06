@@ -42,7 +42,7 @@ class _SignupScreenState extends State<SignupScreen> {
         String message;
         if (e.code == 'weak password') {
           message = 'Weak password';
-        } else if (e.code == 'email-alread-in-use') {
+        } else if (e.code == 'email already in use') {
           message = 'An account exits with this email';
         } else {
           message = 'something went wrong.Please try again';
