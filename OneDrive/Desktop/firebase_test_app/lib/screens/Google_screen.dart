@@ -14,39 +14,41 @@ class _GoogleSigninScreenState extends State<GoogleSigninScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignin = GoogleSignIn();
   bool _isLoading = false;
-  Future<void> _signInWithGoogle() async{
-  setState(() {
-    _isLoading = true;
-  });
-  try{
-    final GoogleSignInAccount? googleUser = await _googleSignin.signIn();
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-  if (googleAuth!=null) {
-    final credential = GoogleAuthProvider.credential(
-      accessToken:googleAuth.accessToken,
-      idToken:googleAuth.idToken,
-);
-    await _auth.signInWithCredential(credential);
-
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomeScreen()),);
-    
-  }
-
-  }
-  catch(e){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign up failed:$e')),);
-  }
-  finally{
+  Future<void> _signInWithGoogle() async {
     setState(() {
-      bool _isLoading = false;
+      _isLoading = true;
     });
-  }
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignin.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
+      if (googleAuth != null) {
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth
+              .accessToken, //when app requests to google api this token is used to prove that the request is coming from a autorized source
+          idToken: googleAuth.idToken,//Fire base uses this to authenticate the user it contains the users email and uid
+        );
+        await _auth.signInWithCredential(credential);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign up failed:$e')),
+      );
+    } finally {
+      setState(() {
+        bool _isLoading = false;
+      });
+    }
   }
 
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Google Sign In')),
       body: Center(
@@ -76,4 +78,3 @@ class _GoogleSigninScreenState extends State<GoogleSigninScreen> {
     );
   }
 }
-    

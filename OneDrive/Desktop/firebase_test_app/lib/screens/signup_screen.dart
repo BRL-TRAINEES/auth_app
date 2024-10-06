@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_test_app/screens/home_screen.dart';
 import 'package:firebase_test_app/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
-import 'Google_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

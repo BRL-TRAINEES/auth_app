@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Auth_App',
-      home: const SigninScreen(),
+      home: const SigninScreen(),//after opening app sign in screen appear
     );
   }
 }
