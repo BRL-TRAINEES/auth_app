@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_test_app/screens/home_screen.dart';
 import 'package:firebase_test_app/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 

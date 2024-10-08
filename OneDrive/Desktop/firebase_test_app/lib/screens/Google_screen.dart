@@ -19,23 +19,32 @@ class _GoogleSigninScreenState extends State<GoogleSigninScreen> {
       _isLoading = true;
     });
     try {
+      await _googleSignin.signOut();//Sign out the previous account
+      //sign in with google
       final GoogleSignInAccount? googleUser = await _googleSignin.signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      if (googleUser == null) {
+        
+          setState(() {
+      _isLoading = false;
+    });
+          return;
 
-      if (googleAuth != null) {
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth
-              .accessToken, //when app requests to google api this token is used to prove that the request is coming from a autorized source
-          idToken: googleAuth.idToken,//Fire base uses this to authenticate the user it contains the users email and uid
-        );
+      }
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
         await _auth.signInWithCredential(credential);
 
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
-      }
+      
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Sign up failed:$e')),
